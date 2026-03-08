@@ -1,0 +1,19 @@
+cabal-version: 2.4
+
+name: PFLHASKELLPROJECT
+version: 0.1.0.0
+build-type: Simple
+
+executable PFLHASKELLPROJECT
+  main-is: Main.hs
+  hs-source-dirs: app
+  build-depends:
+      base >=4.7 && <5,
+      scotty,
+      aeson,
+      cassava,
+      bytestring,
+      vector,
+      text
+  ghc-options: -threaded -rtsopts
+  default-language: Haskell2010
