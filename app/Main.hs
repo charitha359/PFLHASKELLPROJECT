@@ -9,7 +9,6 @@ import Data.Aeson (ToJSON)
 import GHC.Generics
 import Data.List (maximumBy, sortOn)
 import Data.Function (on)
-import Data.Char (toLower)
 
 -- Data structure
 data Waste = Waste
@@ -39,70 +38,70 @@ instance FromRecord Waste where
 
 main :: IO ()
 main = do
+
   putStrLn "Loading CSV dataset..."
 
   csvData <- BL.readFile "data/globalwastedata.csv"
 
   case decode NoHeader csvData of
-    Left err -> do
-      putStrLn "CSV Parse Error:"
-      print err
+    Left err -> print err
 
     Right rows -> do
+
       let wasteList = V.toList (rows :: V.Vector Waste)
 
       putStrLn ("Total records loaded: " ++ show (length wasteList))
 
       scotty 3000 $ do
 
-        -- Root route
+        -- Root
         get "/" $
-          text "PFL Haskell Waste Analytics Backend Running"
+          text "Haskell Waste Analytics Backend Running"
 
-        -- All data
+        ------------------------------------------------
+        -- 1. All data
+        ------------------------------------------------
         get "/data" $
           json wasteList
 
-        -- Count
+
+        ------------------------------------------------
+        -- 2. Total records
+        ------------------------------------------------
         get "/count" $
           json (length wasteList)
 
-        -- Top waste country
+
+        ------------------------------------------------
+        -- 3. Top waste country
+        ------------------------------------------------
         get "/top-waste" $ do
-          let top = maximumBy (compare `on` waste_tons) wasteList
-          json top
+          let topCountry = maximumBy (compare `on` waste_tons) wasteList
+          json topCountry
 
-        -- Top N waste countries (WITHOUT param)
-        get "/top" $ do
-          n <- queryParam "n" :: ActionM Int
-          let sorted = take n $ reverse $ sortOn waste_tons wasteList
-          json sorted
 
-        -- Average waste
+        ------------------------------------------------
+        -- 4. Top 5 countries ranking
+        ------------------------------------------------
+        get "/top5" $ do
+          let ranked = take 5 $ reverse $ sortOn waste_tons wasteList
+          json ranked
+
+
+        ------------------------------------------------
+        -- 5. Average waste
+        ------------------------------------------------
         get "/average-waste" $ do
           let total = sum (map waste_tons wasteList)
-          let avg = if null wasteList then 0 else total / fromIntegral (length wasteList)
+          let avg = total / fromIntegral (length wasteList)
           json avg
 
-        -- East Asia
-        get "/eas-waste" $ do
-          let eas = filter (\w -> region w == "EAS") wasteList
-          json eas
 
-        -- Europe
-        get "/europe-waste" $ do
-          let ecs = filter (\w -> region w == "ECS") wasteList
-          json ecs
-
-        -- Country search
-        get "/country" $ do
-          cname <- queryParam "name"
-          let result =
-                filter (\w -> map toLower (country w) == map toLower cname) wasteList
-          json result
-
-        -- Region summary (for graphs)
+        ------------------------------------------------
+        -- 6. Regional comparison
+        ------------------------------------------------
         get "/region-summary" $ do
+
           let regions = ["EAS","ECS","LCN","MEA","NAC","SAS","SSF"]
 
           let totals =
@@ -111,3 +110,46 @@ main = do
                 ) regions
 
           json totals
+
+
+        ------------------------------------------------
+        -- 7. Waste vs Population (Scatter graph)
+        ------------------------------------------------
+        get "/waste-population" $ do
+
+          let result =
+                map (\w ->
+                    (country w, population w, waste_tons w)
+                ) wasteList
+
+          json result
+
+
+        ------------------------------------------------
+        -- 8. Waste vs GDP
+        ------------------------------------------------
+        get "/waste-gdp" $ do
+
+          let result =
+                map (\w ->
+                    (country w, gdp_per_capita w, waste_tons w)
+                ) wasteList
+
+          json result
+
+
+        ------------------------------------------------
+        -- 9. Global waste distribution
+        ------------------------------------------------
+        get "/global-distribution" $ do
+
+          let totalWaste = sum (map waste_tons wasteList)
+
+          let regions = ["EAS","ECS","LCN","MEA","NAC","SAS","SSF"]
+
+          let distribution =
+                map (\r ->
+                    (r, sum [waste_tons w | w <- wasteList, region w == r])
+                ) regions
+
+          json (totalWaste, distribution)

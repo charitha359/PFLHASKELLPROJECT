@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Global Waste Analytics Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body{
+font-family: Arial;
+background:#f5f5f5;
+margin:40px;
+}
+
+.container{
+width:900px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+}
+
+canvas{
+background:white;
+padding:20px;
+margin-top:20px;
+}
+
+button{
+padding:8px;
+margin-top:10px;
+}
+
+input{
+padding:8px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Global Waste Analytics Dashboard</h1>
+
+<h2>Total Records</h2>
+<p id="count"></p>
+
+<h2>Top Waste Country</h2>
+<p id="topCountry"></p>
+
+<h2>Average Waste</h2>
+<p id="avgWaste"></p>
+
+<h2>Region Waste Comparison</h2>
+<canvas id="regionChart"></canvas>
+
+<h2>Top N Countries</h2>
+
+<input id="topN" placeholder="Enter number (e.g. 5)">
+<button onclick="loadTopN()">Show Graph</button>
+
+<canvas id="topChart"></canvas>
+
+<h2>Search Country</h2>
+
+<input id="countryName" placeholder="Enter country name">
+<button onclick="searchCountry()">Search</button>
+
+<canvas id="countryChart"></canvas>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
