@@ -7,7 +7,7 @@ import Data.Csv
 import qualified Data.Vector as V
 import Data.Aeson (ToJSON)
 import GHC.Generics
-import Data.List (maximumBy)
+import Data.List (maximumBy, sortOn)
 import Data.Function (on)
 import Data.Char (toLower)
 
@@ -72,6 +72,12 @@ main = do
           let top = maximumBy (compare `on` waste_tons) wasteList
           json top
 
+        -- Top N waste countries (WITHOUT param)
+        get "/top" $ do
+          n <- queryParam "n" :: ActionM Int
+          let sorted = take n $ reverse $ sortOn waste_tons wasteList
+          json sorted
+
         -- Average waste
         get "/average-waste" $ do
           let total = sum (map waste_tons wasteList)
@@ -88,7 +94,7 @@ main = do
           let ecs = filter (\w -> region w == "ECS") wasteList
           json ecs
 
-        -- Country search WITHOUT param
+        -- Country search
         get "/country" $ do
           cname <- queryParam "name"
           let result =
