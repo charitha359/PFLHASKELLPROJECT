@@ -9,8 +9,9 @@ import Data.Aeson (ToJSON)
 import GHC.Generics
 import Data.List (maximumBy, sortOn)
 import Data.Function (on)
+import Data.Ord (Down(..))
 
--- Data structure
+-- Waste data structure
 data Waste = Waste
   { country_code :: String
   , region :: String
@@ -23,7 +24,7 @@ data Waste = Waste
 
 instance ToJSON Waste
 
--- CSV parser (NoHeader)
+-- CSV parser using NoHeader
 instance FromRecord Waste where
   parseRecord v
     | V.length v == 7 =
@@ -54,9 +55,12 @@ main = do
 
       scotty 3000 $ do
 
+        ------------------------------------------------
         -- Root
+        ------------------------------------------------
         get "/" $
           text "Haskell Waste Analytics Backend Running"
+
 
         ------------------------------------------------
         -- 1. All data
@@ -81,24 +85,32 @@ main = do
 
 
         ------------------------------------------------
-        -- 4. Top 5 countries ranking
+        -- 4. Top 5 waste producing countries
         ------------------------------------------------
         get "/top5" $ do
-          let ranked = take 5 $ reverse $ sortOn waste_tons wasteList
+          let ranked = take 5 $ sortOn (Down . waste_tons) wasteList
           json ranked
 
 
         ------------------------------------------------
-        -- 5. Average waste
+        -- 5. Least 5 waste producing countries
+        ------------------------------------------------
+        get "/least5" $ do
+          let ranked = take 5 $ sortOn waste_tons wasteList
+          json ranked
+
+
+        ------------------------------------------------
+        -- 6. Average waste generation
         ------------------------------------------------
         get "/average-waste" $ do
-          let total = sum (map waste_tons wasteList)
-          let avg = total / fromIntegral (length wasteList)
-          json avg
+          let totalWaste = sum (map waste_tons wasteList)
+          let avgWaste = totalWaste / fromIntegral (length wasteList)
+          json avgWaste
 
 
         ------------------------------------------------
-        -- 6. Regional comparison
+        -- 7. Regional waste comparison
         ------------------------------------------------
         get "/region-summary" $ do
 
@@ -113,7 +125,7 @@ main = do
 
 
         ------------------------------------------------
-        -- 7. Waste vs Population (Scatter graph)
+        -- 8. Waste vs Population relationship
         ------------------------------------------------
         get "/waste-population" $ do
 
@@ -126,7 +138,7 @@ main = do
 
 
         ------------------------------------------------
-        -- 8. Waste vs GDP
+        -- 9. Waste vs GDP relationship
         ------------------------------------------------
         get "/waste-gdp" $ do
 
@@ -139,7 +151,7 @@ main = do
 
 
         ------------------------------------------------
-        -- 9. Global waste distribution
+        -- 10. Global waste distribution
         ------------------------------------------------
         get "/global-distribution" $ do
 
