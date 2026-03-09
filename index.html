@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WasteAnalytics Pro · Global Waste Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#f8fafc;
+color:#1e293b;
+}
+
+/* HERO */
+.hero{
+position:relative;
+height:85vh;
+/* PROFESSIONAL WASTE MANAGEMENT / ENVIRONMENT IMAGE */
+background-image:url("https://i.pinimg.com/736x/1a/e6/66/1ae666b12c0e2acd9aaf17e816d0b099.jpg");
+background-size:cover;
+background-position:center;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:#ffffff;
+}
+.hero::before{
+content:"";
+position:absolute;
+inset:0;
+
+/* LIGHTER OVERLAY */
+
+background:linear-gradient(
+rgba(15,23,42,0.55),
+rgba(34,197,94,0.25)
+);
+}
+
+
+.hero-content{
+position:relative;
+z-index:2;
+max-width:900px;
+padding:20px;
+}
+
+.hero h1{
+font-size:clamp(3rem,5vw,4.5rem);
+margin-bottom:1rem;
+font-weight:700;
+letter-spacing:-0.5px;
+text-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
+
+.hero p{
+font-size:1.3rem;
+margin-bottom:2rem;
+color:#f1f5f9;
+max-width:700px;
+margin-left:auto;
+margin-right:auto;
+text-shadow:0 2px 8px rgba(0,0,0,0.3);
+}
+
+.btn{
+background:#ffffff;
+color:#0f172a;
+padding:14px 34px;
+border-radius:40px;
+border:none;
+cursor:pointer;
+font-weight:600;
+margin:5px;
+transition:0.25s;
+box-shadow:0 10px 24px rgba(0,0,0,0.3);
+}
+
+.btn:hover{
+transform:translateY(-4px);
+background:#f8fafc;
+box-shadow:0 15px 30px rgba(0,0,0,0.4);
+}
+
+/* DASHBOARD SECTION */
+.dashboard-section{
+max-width:1300px;
+margin:60px auto;
+padding:0 20px;
+}
+
+.section-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.section-header h2{
+font-size:2rem;
+font-weight:600;
+color:#0f172a;
+}
+
+/* ARROWS */
+.arrow{
+width:45px;
+height:45px;
+background:white;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+border:1px solid #e2e8f0;
+transition:0.2s;
+}
+
+.arrow:hover{
+background:#f1f5f9;
+transform:scale(1.05);
+}
+
+/* CARD SCROLL */
+.card-scroll{
+display:flex;
+gap:22px;
+overflow-x:auto;
+scroll-behavior:smooth;
+padding-bottom:20px;
+scrollbar-width:none;
+}
+
+.card-scroll::-webkit-scrollbar{
+display:none;
+}
+
+/* CARDS */
+.card{
+min-width:280px;
+max-width:300px;
+flex-shrink:0;
+background:white;
+padding:25px;
+border-radius:18px;
+border:1px solid #e2e8f0;
+box-shadow:0 2px 12px rgba(0,0,0,0.04);
+cursor:pointer;
+transition:0.25s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 15px 30px -10px rgba(0,0,0,0.15);
+border-color:#94a3b8;
+}
+
+.card-icon{
+font-size:28px;
+margin-bottom:14px;
+color:#475569;
+}
+
+.card h3{
+font-size:1.2rem;
+margin-bottom:6px;
+color:#0f172a;
+font-weight:600;
+}
+
+.card-sub{
+font-size:0.9rem;
+color:#64748b;
+}
+
+/* FOOTER */
+.footer{
+background:#0f172a;
+color:white;
+margin-top:60px;
+padding:40px 20px;
+}
+
+.footer-grid{
+max-width:1200px;
+margin:auto;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+}
+
+.footer h4{
+margin-bottom:15px;
+font-weight:600;
+color:#ffffff;
+}
+
+.footer a{
+color:#94a3b8;
+display:block;
+margin:5px 0;
+text-decoration:none;
+transition:0.2s;
+}
+
+.footer a:hover{
+color:#ffffff;
+}
+
+.footer p{
+color:#94a3b8;
+line-height:1.6;
+}
+
+.footer-copyright{
+text-align:center;
+margin-top:30px;
+color:#64748b;
+font-size:0.9rem;
+padding-top:20px;
+border-top:1px solid #1e293b;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+.hero{
+height:70vh;
+}
+
+.section-header{
+flex-direction:column;
+align-items:flex-start;
+gap:12px;
+}
+
+.arrow{
+width:38px;
+height:38px;
+}
+
+.card{
+min-width:240px;
+}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+<div class="hero-content">
+<h1>Global Waste Intelligence Platform</h1>
+<p>Explore municipal waste trends across countries using real-time analytics and data visualization.</p>
+<button class="btn" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})">
+<i class="fas fa-chart-line"></i> Explore Dashboard
+</button>
+</div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard-section" id="explore">
+<div class="section-header">
+<h2>Explore Dashboards</h2>
+<div style="display:flex;gap:10px">
+<div class="arrow" onclick="scrollCards(-400)">
+<i class="fas fa-chevron-left"></i>
+</div>
+<div class="arrow" onclick="scrollCards(400)">
+<i class="fas fa-chevron-right"></i>
+</div>
+</div>
+</div>
+
+<div class="card-scroll" id="cardDeck">
+<div class="card" onclick="location.href='trend.html'">
+<div class="card-icon"><i class="fas fa-chart-line"></i></div>
+<h3>Year vs Total Waste Generated</h3>
+<div class="card-sub">Global Waste Trend</div>
+</div>
+
+<div class="card" onclick="location.href='topcountries.html'">
+<div class="card-icon"><i class="fas fa-trophy"></i></div>
+<h3>Top Waste Producing Countries</h3>
+<div class="card-sub">Country vs Waste Generated</div>
+</div>
+
+<div class="card" onclick="location.href='least.html'">
+<div class="card-icon"><i class="fas fa-leaf"></i></div>
+<h3>Least Waste Producing Countries</h3>
+<div class="card-sub">Country vs Waste Generated</div>
+</div>
+
+<div class="card" onclick="location.href='countrytrend.html'">
+<div class="card-icon"><i class="fas fa-flag"></i></div>
+<h3>Country Waste Trends</h3>
+<div class="card-sub">Year vs Waste Generated</div>
+</div>
+
+<div class="card" onclick="location.href='average.html'">
+<div class="card-icon"><i class="fas fa-calculator"></i></div>
+<h3>Global Waste Average</h3>
+<div class="card-sub">Dataset vs Average Waste</div>
+</div>
+
+<div class="card" onclick="location.href='map.html'">
+<div class="card-icon"><i class="fas fa-map"></i></div>
+<h3>Global Waste Distribution</h3>
+<div class="card-sub">Country vs Waste Generated</div>
+</div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="footer-grid">
+<div>
+<h4>WasteAnalytics Pro</h4>
+<p>Data-driven insights for global waste management.</p>
+</div>
+<div>
+<h4>Navigation</h4>
+<a href="#">Home</a>
+<a href="#">Dashboard</a>
+<a href="#">Analytics</a>
+</div>
+<div>
+<h4>Data Sources</h4>
+<p>World Bank Open Data</p>
+<p>UN Environment Programme</p>
+</div>
+</div>
+<div class="footer-copyright">
+© 2026 WasteAnalytics Pro
+</div>
+</footer>
+
+<script>
+function scrollCards(offset){
+document.getElementById("cardDeck").scrollBy({
+left:offset,
+behavior:"smooth"
+})
+}
+</script>
+
+</body>
+</html>
