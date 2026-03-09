@@ -8,7 +8,6 @@ import qualified Data.Vector as V
 import Data.Aeson (ToJSON)
 import GHC.Generics
 import Data.List
-import Data.Function (on)
 import Data.Ord (Down(..))
 
 -------------------------------------------------
@@ -80,20 +79,20 @@ main = do
           json (length wasteList)
 
 -------------------------------------------------
--- AVAILABLE YEARS (FOR SLIDER)
+-- AVAILABLE YEARS
 -------------------------------------------------
 
         get "/years" $ do
-          let yearsList = nub $ map year wasteList
-          json (sort yearsList)
+          let yearsList = sort . nub $ map year wasteList
+          json yearsList
 
 -------------------------------------------------
--- GLOBAL WASTE TREND (YEARLY TOTAL)
+-- GLOBAL WASTE TREND
 -------------------------------------------------
 
         get "/yearly-total" $ do
 
-          let yearsList = nub $ map year wasteList
+          let yearsList = sort . nub $ map year wasteList
 
           let totals =
                 map (\y ->
@@ -101,7 +100,7 @@ main = do
                      sum [waste w | w <- wasteList, year w == y])
                 ) yearsList
 
-          json (sortOn fst totals)
+          json totals
 
 -------------------------------------------------
 -- TOP WASTE COUNTRIES
@@ -136,7 +135,7 @@ main = do
           json (take 10 $ sortOn snd totals)
 
 -------------------------------------------------
--- COUNTRY TREND (MULTI YEAR)
+-- COUNTRY TREND
 -------------------------------------------------
 
         get "/country-trend" $ do
@@ -148,7 +147,8 @@ main = do
                     (c,
                      sortOn fst
                        [ (year w, waste w)
-                       | w <- wasteList, country w == c ])
+                       | w <- wasteList
+                       , country w == c ])
                 ) countries
 
           json trends
