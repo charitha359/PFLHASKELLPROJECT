@@ -10,6 +10,8 @@ import GHC.Generics
 import Data.List
 import Data.Ord (Down(..))
 
+import Network.Wai.Middleware.Static
+
 -------------------------------------------------
 -- DATA STRUCTURE
 -------------------------------------------------
@@ -23,7 +25,7 @@ data Waste = Waste
 instance ToJSON Waste
 
 -------------------------------------------------
--- CSV PARSER (NO HEADER)
+-- CSV PARSER
 -------------------------------------------------
 
 instance FromRecord Waste where
@@ -58,11 +60,18 @@ main = do
       scotty 3000 $ do
 
 -------------------------------------------------
--- ROOT
+-- STATIC FILE SERVER
 -------------------------------------------------
 
-        get "/" $
-          text "Global Waste Analytics Backend Running"
+        middleware $ staticPolicy (noDots >-> addBase ".")
+
+-------------------------------------------------
+-- ROOT DASHBOARD
+-------------------------------------------------
+
+        get "/" $ do
+          setHeader "Content-Type" "text/html"
+          file "index.html"
 
 -------------------------------------------------
 -- ALL DATA
@@ -72,7 +81,7 @@ main = do
           json wasteList
 
 -------------------------------------------------
--- TOTAL RECORD COUNT
+-- RECORD COUNT
 -------------------------------------------------
 
         get "/count" $
@@ -103,7 +112,7 @@ main = do
           json totals
 
 -------------------------------------------------
--- TOP WASTE COUNTRIES
+-- TOP COUNTRIES
 -------------------------------------------------
 
         get "/top-countries" $ do
@@ -119,7 +128,7 @@ main = do
           json (take 10 $ sortOn (Down . snd) totals)
 
 -------------------------------------------------
--- LEAST WASTE COUNTRIES
+-- LEAST COUNTRIES
 -------------------------------------------------
 
         get "/least-countries" $ do
@@ -154,7 +163,7 @@ main = do
           json trends
 
 -------------------------------------------------
--- GLOBAL AVERAGE WASTE
+-- GLOBAL AVERAGE
 -------------------------------------------------
 
         get "/global-average" $ do
@@ -167,7 +176,7 @@ main = do
           json avgWaste
 
 -------------------------------------------------
--- WORLD MAP DATA
+-- MAP DATA
 -------------------------------------------------
 
         get "/map-data" $ do

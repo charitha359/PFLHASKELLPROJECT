@@ -24,4 +24,5 @@ executable PFLHASKELLPROJECT
       text,
       bytestring,
       wai,
-      warp
+      warp,
+      wai-middleware-static
