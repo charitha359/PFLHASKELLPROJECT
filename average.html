@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Dataset vs Average Waste Generated</title>
+
+<style>
+
+body{
+font-family:Segoe UI;
+background:#eef2f7;
+margin:0;
+}
+
+h1{
+text-align:center;
+margin:25px;
+}
+
+.card{
+
+width:60%;
+margin:auto;
+
+background:white;
+
+padding:40px;
+
+border-radius:12px;
+
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+
+text-align:center;
+
+}
+
+.value{
+
+font-size:60px;
+
+color:#2c3e50;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Dataset vs Average Waste Generated</h1>
+
+<div class="card">
+
+<p>Global Average Waste</p>
+
+<div id="avg" class="value"></div>
+
+</div>
+
+<script>
+
+fetch("https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev/global-average")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("avg").innerText=data.toFixed(2)
+})
+
+</script>
+
+</body>
+</html>

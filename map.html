@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Country vs Waste Generated (Global Map)</title>
+
+<style>
+
+body{
+font-family:Segoe UI;
+background:#eef2f7;
+margin:0;
+}
+
+h1{
+text-align:center;
+margin:25px;
+}
+
+.card{
+
+width:90%;
+max-width:1200px;
+
+margin:auto;
+
+background:white;
+
+padding:30px;
+
+border-radius:12px;
+
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Country vs Waste Generated (Global Map)</h1>
+
+<div class="card">
+
+<p style="text-align:center">
+
+Map visualization of global waste distribution.
+
+</p>
+
+</div>
+
+<script>
+
+fetch("https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev/map-data")
+.then(res=>res.json())
+.then(data=>{
+console.log("Map data:",data)
+})
+
+</script>
+
+</body>
+</html>

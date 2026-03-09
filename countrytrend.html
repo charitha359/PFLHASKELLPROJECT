@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Year vs Waste Generated (Country Trends)</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+body{
+font-family:Segoe UI;
+background:#eef2f7;
+margin:0;
+}
+
+h1{
+text-align:center;
+margin:25px;
+}
+
+.card{
+
+width:90%;
+max-width:1200px;
+
+margin:auto;
+
+background:white;
+
+padding:30px;
+
+border-radius:12px;
+
+box-shadow:0 4px 10px rgba(0,0,0,0.2);
+
+height:500px;
+
+}
+
+canvas{
+width:100%;
+height:100%;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Year vs Waste Generated (Country Trends)</h1>
+
+<div class="card">
+<canvas id="chart"></canvas>
+</div>
+
+<script>
+
+fetch("https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev/country-trend")
+.then(res=>res.json())
+.then(data=>{
+
+const datasets = []
+
+data.slice(0,5).forEach(country => {
+
+datasets.push({
+
+label: country[0],
+
+data: country[1].map(x=>x[1]),
+
+fill:false
+
+})
+
+})
+
+const labels = data[0][1].map(x=>x[0])
+
+new Chart(document.getElementById("chart"),{
+
+type:"line",
+
+data:{
+labels:labels,
+datasets:datasets
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+
+})
+
+})
+
+</script>
+
+</body>
+</html>
