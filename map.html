@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Country vs Waste Generated (Global Map)</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4"></script>
 
 <style>
 
@@ -32,6 +39,19 @@ border-radius:12px;
 
 box-shadow:0 4px 10px rgba(0,0,0,0.2);
 
+height:600px;
+
+}
+
+canvas{
+width:100%;
+height:100%;
+}
+
+.loading{
+text-align:center;
+margin-top:10px;
+color:#64748b;
 }
 
 </style>
@@ -44,20 +64,81 @@ box-shadow:0 4px 10px rgba(0,0,0,0.2);
 
 <div class="card">
 
-<p style="text-align:center">
+<canvas id="mapChart"></canvas>
 
-Map visualization of global waste distribution.
-
-</p>
+<div id="status" class="loading">Loading map data...</div>
 
 </div>
 
 <script>
 
-fetch("https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev/map-data")
-.then(res=>res.json())
-.then(data=>{
-console.log("Map data:",data)
+/* BACKEND URL */
+
+const backend = "https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev";
+
+/* FETCH MAP DATA */
+
+fetch(backend + "/map-data")
+
+.then(res => res.json())
+
+.then(async data => {
+
+document.getElementById("status").innerText = "";
+
+/* Load world map */
+
+const world = await fetch("https://unpkg.com/world-atlas@2/countries-110m.json")
+.then(res => res.json())
+
+const countries = ChartGeo.topojson.feature(world, world.objects.countries).features
+
+/* Create map data */
+
+const dataset = countries.map(d => {
+
+const match = data.find(x => x[0] === d.properties.name)
+
+return {
+feature: d,
+value: match ? match[1] : 0
+}
+
+})
+
+/* Draw map */
+
+new Chart(document.getElementById("mapChart"),{
+
+type:"choropleth",
+
+data:{
+labels:countries.map(d => d.properties.name),
+datasets:[{
+label:"Waste Generated",
+data:dataset
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false,
+scales:{
+projection:{
+axis:"x",
+projection:"equalEarth"
+}
+}
+}
+
+})
+
+})
+
+.catch(() => {
+
+document.getElementById("status").innerText = "Backend not running"
+
 })
 
 </script>

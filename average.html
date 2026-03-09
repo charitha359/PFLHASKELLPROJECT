@@ -2,6 +2,9 @@
 <html>
 <head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Dataset vs Average Waste Generated</title>
 
 <style>
@@ -14,12 +17,16 @@ margin:0;
 
 h1{
 text-align:center;
-margin:25px;
+margin:30px;
 }
+
+/* CARD */
 
 .card{
 
 width:60%;
+max-width:600px;
+
 margin:auto;
 
 background:white;
@@ -34,11 +41,29 @@ text-align:center;
 
 }
 
+/* VALUE */
+
 .value{
 
 font-size:60px;
 
 color:#2c3e50;
+
+margin-top:10px;
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.card{
+width:90%;
+}
+
+.value{
+font-size:40px;
+}
 
 }
 
@@ -54,17 +79,33 @@ color:#2c3e50;
 
 <p>Global Average Waste</p>
 
-<div id="avg" class="value"></div>
+<div id="avg" class="value">Loading...</div>
 
 </div>
 
 <script>
 
-fetch("https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev/global-average")
-.then(res=>res.json())
-.then(data=>{
-document.getElementById("avg").innerText=data.toFixed(2)
+/* BACKEND URL */
+
+const backend = "https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev";
+
+/* FETCH AVERAGE DATA */
+
+fetch(backend + "/global-average")
+
+.then(res => res.json())
+
+.then(data => {
+
+document.getElementById("avg").innerText = data.toFixed(2);
+
 })
+
+.catch(() => {
+
+document.getElementById("avg").innerText = "Backend not running";
+
+});
 
 </script>
 

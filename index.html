@@ -1,18 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>WasteAnalytics Pro · Global Waste Intelligence</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
 }
 
 body{
@@ -22,32 +34,35 @@ color:#1e293b;
 }
 
 /* HERO */
+
 .hero{
 position:relative;
 height:85vh;
-/* PROFESSIONAL WASTE MANAGEMENT / ENVIRONMENT IMAGE */
-background-image:url("https://i.pinimg.com/736x/1a/e6/66/1ae666b12c0e2acd9aaf17e816d0b099.jpg");
+
+background-image:url("https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=2000&q=80");
+
 background-size:cover;
 background-position:center;
+
 display:flex;
 align-items:center;
 justify-content:center;
 text-align:center;
+
 color:#ffffff;
 }
+
 .hero::before{
 content:"";
 position:absolute;
 inset:0;
 
-/* LIGHTER OVERLAY */
-
 background:linear-gradient(
 rgba(15,23,42,0.55),
 rgba(34,197,94,0.25)
 );
-}
 
+}
 
 .hero-content{
 position:relative;
@@ -94,6 +109,7 @@ box-shadow:0 15px 30px rgba(0,0,0,0.4);
 }
 
 /* DASHBOARD SECTION */
+
 .dashboard-section{
 max-width:1300px;
 margin:60px auto;
@@ -114,6 +130,7 @@ color:#0f172a;
 }
 
 /* ARROWS */
+
 .arrow{
 width:45px;
 height:45px;
@@ -134,6 +151,7 @@ transform:scale(1.05);
 }
 
 /* CARD SCROLL */
+
 .card-scroll{
 display:flex;
 gap:22px;
@@ -148,16 +166,24 @@ display:none;
 }
 
 /* CARDS */
+
 .card{
 min-width:280px;
 max-width:300px;
 flex-shrink:0;
+
 background:white;
+
 padding:25px;
+
 border-radius:18px;
+
 border:1px solid #e2e8f0;
+
 box-shadow:0 2px 12px rgba(0,0,0,0.04);
+
 cursor:pointer;
+
 transition:0.25s;
 }
 
@@ -186,6 +212,7 @@ color:#64748b;
 }
 
 /* FOOTER */
+
 .footer{
 background:#0f172a;
 color:white;
@@ -234,7 +261,9 @@ border-top:1px solid #1e293b;
 }
 
 /* MOBILE */
+
 @media(max-width:768px){
+
 .hero{
 height:70vh;
 }
@@ -253,37 +282,59 @@ height:38px;
 .card{
 min-width:240px;
 }
+
 }
+
 </style>
+
 </head>
+
 <body>
 
 <!-- HERO -->
+
 <div class="hero">
+
 <div class="hero-content">
+
 <h1>Global Waste Intelligence Platform</h1>
+
 <p>Explore municipal waste trends across countries using real-time analytics and data visualization.</p>
+
 <button class="btn" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})">
+
 <i class="fas fa-chart-line"></i> Explore Dashboard
+
 </button>
+
 </div>
+
 </div>
 
 <!-- DASHBOARD -->
+
 <div class="dashboard-section" id="explore">
+
 <div class="section-header">
+
 <h2>Explore Dashboards</h2>
+
 <div style="display:flex;gap:10px">
+
 <div class="arrow" onclick="scrollCards(-400)">
 <i class="fas fa-chevron-left"></i>
 </div>
+
 <div class="arrow" onclick="scrollCards(400)">
 <i class="fas fa-chevron-right"></i>
 </div>
+
 </div>
+
 </div>
 
 <div class="card-scroll" id="cardDeck">
+
 <div class="card" onclick="location.href='trend.html'">
 <div class="card-icon"><i class="fas fa-chart-line"></i></div>
 <h3>Year vs Total Waste Generated</h3>
@@ -319,41 +370,55 @@ min-width:240px;
 <h3>Global Waste Distribution</h3>
 <div class="card-sub">Country vs Waste Generated</div>
 </div>
+
 </div>
+
 </div>
 
 <!-- FOOTER -->
+
 <footer class="footer">
+
 <div class="footer-grid">
+
 <div>
 <h4>WasteAnalytics Pro</h4>
 <p>Data-driven insights for global waste management.</p>
 </div>
+
 <div>
 <h4>Navigation</h4>
-<a href="#">Home</a>
-<a href="#">Dashboard</a>
-<a href="#">Analytics</a>
+<a href="index.html">Home</a>
+<a href="#explore">Dashboard</a>
 </div>
+
 <div>
 <h4>Data Sources</h4>
 <p>World Bank Open Data</p>
 <p>UN Environment Programme</p>
 </div>
+
 </div>
+
 <div class="footer-copyright">
 © 2026 WasteAnalytics Pro
 </div>
+
 </footer>
 
 <script>
+
 function scrollCards(offset){
+
 document.getElementById("cardDeck").scrollBy({
 left:offset,
 behavior:"smooth"
 })
+
 }
+
 </script>
 
 </body>
+
 </html>
