@@ -36,32 +36,32 @@ color:#1e293b;
 /* HERO */
 
 .hero{
-position:relative;
-height:85vh;
+  position:relative;
+  height:85vh;
 
-background-image:url("https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=2000&q=80");
+  background-image:url("https://img.freepik.com/premium-vector/outline-gradient-world-map-outline-background_681420-5264.jpg?w=740");
 
-background-size:cover;
-background-position:center;
+  background-size:cover;
+  background-position:center;
 
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 
-color:#ffffff;
+  color:#ffffff;
 }
 
+/* Softer overlay (this is the key fix) */
 .hero::before{
-content:"";
-position:absolute;
-inset:0;
+  content:"";
+  position:absolute;
+  inset:0;
 
-background:linear-gradient(
-rgba(15,23,42,0.55),
-rgba(34,197,94,0.25)
-);
-
+  background:linear-gradient(
+    rgba(0,0,0,0.15),   /* very light top */
+    rgba(0,0,0,0.05)    /* almost transparent bottom */
+  );
 }
 
 .hero-content{
@@ -76,7 +76,7 @@ font-size:clamp(3rem,5vw,4.5rem);
 margin-bottom:1rem;
 font-weight:700;
 letter-spacing:-0.5px;
-text-shadow:0 4px 12px rgba(0,0,0,0.3);
+text-shadow:0 6px 20px rgba(0,0,0,0.6);
 }
 
 .hero p{
@@ -300,12 +300,6 @@ min-width:240px;
 <h1>Global Waste Intelligence Platform</h1>
 
 <p>Explore municipal waste trends across countries using real-time analytics and data visualization.</p>
-
-<button class="btn" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})">
-
-<i class="fas fa-chart-line"></i> Explore Dashboard
-
-</button>
 
 </div>
 
