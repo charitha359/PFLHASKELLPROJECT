@@ -4,13 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-# install stack
-RUN curl -sSL https://get.haskellstack.org/ | sh
-
-# build project using stack
-RUN stack setup
-RUN stack build
+RUN cabal update
 
 EXPOSE 10000
 
-CMD ["stack", "run"]
+CMD ["cabal", "run"]
