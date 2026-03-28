@@ -1,12 +1,8 @@
-cabal-version: 3.0
+cabal-version: 2.4
 
 name: PFLHASKELLPROJECT
 version: 0.1.0.0
 build-type: Simple
-license: MIT
-author: Charitha
-maintainer: charitha@example.com
-category: Web
 
 executable PFLHASKELLPROJECT
   main-is: Main.hs
@@ -17,8 +13,8 @@ executable PFLHASKELLPROJECT
 
   build-depends:
       base >=4.7 && <5,
-      scotty ==0.12,
-      aeson ==2.0.3.0,
+      scotty,
+      aeson,
       cassava,
       vector,
       text,
