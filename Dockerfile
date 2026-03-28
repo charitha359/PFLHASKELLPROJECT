@@ -8,4 +8,4 @@ RUN cabal update
 
 EXPOSE 10000
 
-CMD ["cabal", "run"]
+CMD ["./.stack-work/install/x86_64-linux/*/*/bin/PFLHASKELLPROJECT"]
