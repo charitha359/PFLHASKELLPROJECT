@@ -1,7 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
-import Control.Exception (catch)
+import Control.Exception (catch, IOException)
+import System.Environment (lookupEnv)
+
 import Web.Scotty
 import qualified Data.ByteString.Lazy as BL
 import Data.Csv
@@ -46,20 +49,23 @@ main = do
 
   putStrLn "Loading Waste Dataset..."
 
-  -- SAFE FILE READ (prevents crash)
-  csvData <- BL.readFile "data/waste.csv" `catch` (\_ -> return "")
+  csvData <- BL.readFile "data/waste.csv"
+              `catch` (\(_ :: IOException) -> return BL.empty)
 
-  -- SAFE PARSE (server will still run even if CSV fails)
   let wasteList =
         case decode NoHeader csvData of
           Left _ -> []
           Right rows -> V.toList (rows :: V.Vector Waste)
 
   putStrLn ("Records Loaded: " ++ show (length wasteList))
-  putStrLn "Starting server on port 10000..."
 
-  -- IMPORTANT: Render port
-  scotty 10000 $ do
+  -- ✅ FIXED PORT (Render compatible)
+  portEnv <- lookupEnv "PORT"
+  let port = maybe 10000 read portEnv
+
+  putStrLn ("Starting server on port " ++ show port)
+
+  scotty port $ do
 
 -------------------------------------------------
 -- STATIC FILE SERVER
@@ -159,7 +165,9 @@ main = do
     get "/global-average" $ do
       let totalWaste = sum (map waste wasteList)
       let avgWaste =
-            totalWaste / fromIntegral (length wasteList)
+            if null wasteList
+              then 0
+              else totalWaste / fromIntegral (length wasteList)
       json avgWaste
 
 -------------------------------------------------
