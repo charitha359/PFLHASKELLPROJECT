@@ -17,8 +17,8 @@ executable PFLHASKELLPROJECT
 
   build-depends:
       base >=4.7 && <5,
-      scotty,
-      aeson,
+      scotty ==0.12,
+      aeson ==2.0.3.0,
       cassava,
       vector,
       text,
