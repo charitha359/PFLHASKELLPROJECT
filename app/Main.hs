@@ -57,7 +57,7 @@ main = do
       putStrLn ("Records Loaded: " ++ show (length wasteList))
       putStrLn "Server running at http://localhost:3000"
 
-      scotty 3000 $ do
+      scotty 10000 $ do
 
 -------------------------------------------------
 -- STATIC FILE SERVER
