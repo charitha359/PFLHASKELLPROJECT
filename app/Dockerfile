@@ -4,11 +4,9 @@ WORKDIR /app
 
 COPY . .
 
-# initialize cabal
+# install dependencies properly
 RUN cabal update
-
-# configure project
-RUN cabal configure
+RUN cabal install --lib scotty aeson cassava text bytestring vector
 
 # build project
 RUN cabal build
