@@ -75,13 +75,18 @@ color:#64748b;
 
 <script>
 
-/* FETCH DATA */
-
 fetch("/country-trend")
 
 .then(res => res.json())
 
 .then(data => {
+
+/* ✅ HANDLE EMPTY DATA */
+
+if(!data || data.length === 0){
+document.getElementById("status").innerText = "No data available";
+return;
+}
 
 document.getElementById("status").innerText = "";
 
@@ -95,29 +100,27 @@ const colors = [
 "#8b5cf6"
 ]
 
-/* TAKE FIRST 5 COUNTRIES */
+/* SAFE LOOP */
 
 data.slice(0,5).forEach((country,index) => {
 
+if(!country[1]) return;
+
 datasets.push({
-
-label: country[0],
-
+label: String(country[0]),
 data: country[1].map(x => Number(x[1])),
-
 borderColor: colors[index],
-
 fill:false,
-
 tension:0.3
-
 })
 
 })
 
-/* YEARS */
+/* SAFE LABELS */
 
-const labels = data[0][1].map(x => Number(x[0]))
+const labels = data[0] && data[0][1]
+? data[0][1].map(x => Number(x[0]))
+: []
 
 new Chart(document.getElementById("chart"),{
 
@@ -142,9 +145,12 @@ beginAtZero:true
 
 })
 
-.catch(() => {
+.catch((err) => {
 
-document.getElementById("status").innerText = "Backend not running"
+/* SHOW REAL ERROR */
+
+console.log(err)
+document.getElementById("status").innerText = "Error loading data";
 
 })
 

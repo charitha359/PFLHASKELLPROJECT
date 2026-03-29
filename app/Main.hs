@@ -60,7 +60,7 @@ main = do
 
   putStrLn ("Records Loaded: " ++ show (length wasteList))
 
-  -- ✅ FIXED PORT (Render compatible)
+  -- PORT (Render compatible)
   portEnv <- lookupEnv "PORT"
   let port = maybe 10000 read portEnv
 
@@ -75,7 +75,7 @@ main = do
     middleware $ staticPolicy (noDots >-> addBase ".")
 
 -------------------------------------------------
--- ROOT DASHBOARD
+-- ROOT
 -------------------------------------------------
 
     get "/" $ do
@@ -90,14 +90,14 @@ main = do
       json wasteList
 
 -------------------------------------------------
--- RECORD COUNT
+-- COUNT
 -------------------------------------------------
 
     get "/count" $
       json (length wasteList)
 
 -------------------------------------------------
--- AVAILABLE YEARS
+-- YEARS
 -------------------------------------------------
 
     get "/years" $ do
@@ -105,7 +105,7 @@ main = do
       json yearsList
 
 -------------------------------------------------
--- GLOBAL WASTE TREND
+-- YEARLY TOTAL
 -------------------------------------------------
 
     get "/yearly-total" $ do
@@ -160,10 +160,10 @@ main = do
       json trends
 
 -------------------------------------------------
--- GLOBAL AVERAGE
+-- GLOBAL AVERAGE  ✅ FIXED
 -------------------------------------------------
 
-    get "/global-average" $ do
+    get "/average" $ do
       let totalWaste = sum (map waste wasteList)
       let avgWaste =
             if null wasteList
