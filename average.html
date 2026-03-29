@@ -85,15 +85,15 @@ font-size:40px;
 
 <script>
 fetch("https://pflhaskellproject-1.onrender.com/average")
-.then(res => {
-  if (!res.ok) throw new Error("Network error")
-  return res.text()   // 👈 IMPORTANT CHANGE
-})
+.then(res => res.text())   // ✅ MUST be text()
 .then(data => {
-  document.getElementById("avg").innerText = Number(data).toFixed(2)
+
+  document.getElementById("avg").innerText =
+    Number(data.trim()).toFixed(2)
+
 })
 .catch((err) => {
-  console.log(err)  // 👈 see error in console
+  console.log(err)
   document.getElementById("avg").innerText = "Error loading data"
 })
 </script>
