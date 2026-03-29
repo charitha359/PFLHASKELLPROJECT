@@ -71,12 +71,6 @@ color:#64748b;
 
 <script>
 
-/* BACKEND URL */
-
-const backend = "https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev";
-
-/* FETCH DATA */
-
 fetch("/yearly-total")
 
 .then(res => res.json())
@@ -85,8 +79,10 @@ fetch("/yearly-total")
 
 document.getElementById("status").innerText = "";
 
-const years = data.map(x => x[0])
-const waste = data.map(x => x[1])
+/* FIX: ensure correct mapping */
+
+const years = data.map(x => Number(x[0]))
+const waste = data.map(x => Number(x[1]))
 
 new Chart(document.getElementById("chart"),{
 
@@ -106,7 +102,12 @@ fill:true
 
 options:{
 responsive:true,
-maintainAspectRatio:false
+maintainAspectRatio:false,
+scales:{
+y:{
+beginAtZero:true
+}
+}
 }
 
 })

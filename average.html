@@ -85,19 +85,15 @@ font-size:40px;
 
 <script>
 
-/* BACKEND URL */
-
-const backend = "https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev";
-
 /* FETCH AVERAGE DATA */
 
-fetch("/data")
+fetch("/average")
 
 .then(res => res.json())
 
 .then(data => {
 
-document.getElementById("avg").innerText = data.toFixed(2);
+document.getElementById("avg").innerText = Number(data).toFixed(2);
 
 })
 
@@ -108,6 +104,5 @@ document.getElementById("avg").innerText = "Backend not running";
 });
 
 </script>
-
 </body>
 </html>

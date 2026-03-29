@@ -71,12 +71,6 @@ color:#64748b;
 
 <script>
 
-/* BACKEND URL */
-
-const backend = "https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev";
-
-/* FETCH DATA */
-
 fetch("/least-countries")
 
 .then(res => res.json())
@@ -85,8 +79,10 @@ fetch("/least-countries")
 
 document.getElementById("status").innerText = "";
 
-const countries = data.map(x => x[0])
-const waste = data.map(x => x[1])
+/* FIXED */
+
+const countries = data.map(x => String(x[0]))
+const waste = data.map(x => Number(x[1]))
 
 new Chart(document.getElementById("chart"),{
 
@@ -95,7 +91,7 @@ type:"bar",
 data:{
 labels:countries,
 datasets:[{
-label:"Waste Generated",
+label:"Least Waste Producing Countries",
 data:waste,
 backgroundColor:"#3b82f6"
 }]
@@ -103,7 +99,12 @@ backgroundColor:"#3b82f6"
 
 options:{
 responsive:true,
-maintainAspectRatio:false
+maintainAspectRatio:false,
+scales:{
+y:{
+beginAtZero:true
+}
+}
 }
 
 })

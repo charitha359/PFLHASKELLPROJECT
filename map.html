@@ -10,6 +10,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-geo@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
 
 <style>
 
@@ -74,7 +75,7 @@ color:#64748b;
 
 /* FETCH BACKEND MAP DATA */
 
-fetch("/map-data")
+fetch("/data")
 
 .then(res => res.json())
 
@@ -93,11 +94,14 @@ const countries = ChartGeo.topojson.feature(world, world.objects.countries).feat
 
 const dataset = countries.map(d => {
 
-const match = data.find(x => x[0] === d.properties.name)
+const match = data.find(x => 
+  x[0].toLowerCase().includes(d.properties.name.toLowerCase()) ||
+  d.properties.name.toLowerCase().includes(x[0].toLowerCase())
+)
 
 return {
 feature: d,
-value: match ? match[1] : 0
+value: match ? Number(match[1]) : 0
 }
 
 })

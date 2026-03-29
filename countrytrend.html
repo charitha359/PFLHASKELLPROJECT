@@ -75,13 +75,9 @@ color:#64748b;
 
 <script>
 
-/* BACKEND BASE URL */
-
-const backend = "https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev";
-
 /* FETCH DATA */
 
-fetch("/data")
+fetch("/country-trend")
 
 .then(res => res.json())
 
@@ -99,13 +95,15 @@ const colors = [
 "#8b5cf6"
 ]
 
+/* TAKE FIRST 5 COUNTRIES */
+
 data.slice(0,5).forEach((country,index) => {
 
 datasets.push({
 
 label: country[0],
 
-data: country[1].map(x => x[1]),
+data: country[1].map(x => Number(x[1])),
 
 borderColor: colors[index],
 
@@ -117,7 +115,9 @@ tension:0.3
 
 })
 
-const labels = data[0][1].map(x => x[0])
+/* YEARS */
+
+const labels = data[0][1].map(x => Number(x[0]))
 
 new Chart(document.getElementById("chart"),{
 
@@ -130,7 +130,12 @@ datasets:datasets
 
 options:{
 responsive:true,
-maintainAspectRatio:false
+maintainAspectRatio:false,
+scales:{
+y:{
+beginAtZero:true
+}
+}
 }
 
 })
@@ -144,7 +149,6 @@ document.getElementById("status").innerText = "Backend not running"
 })
 
 </script>
-
 </body>
 
 </html>
