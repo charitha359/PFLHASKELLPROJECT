@@ -84,19 +84,30 @@ font-size:40px;
 </div>
 
 <script>
-fetch("https://pflhaskellproject-1.onrender.com/average")
-.then(res => res.json())
-.then(data => {
 
-const total = data.reduce((sum, x) => sum + Number(x.waste), 0)
-const avg = total / data.length
+async function loadAverage() {
+  try {
+    const res = await fetch("https://pflhaskellproject-1.onrender.com/average")
 
-document.getElementById("avg").innerText = avg.toFixed(2)
+    if (!res.ok) throw new Error("Server sleeping")
 
-})
-.catch(() => {
-document.getElementById("avg").innerText = "Error loading data"
-})
+    const data = await res.text()
+
+    document.getElementById("avg").innerText =
+      Number(data.trim()).toFixed(2)
+
+  } catch (err) {
+    console.log("Retrying...", err)
+
+    document.getElementById("avg").innerText = "Loading..."
+
+    // 🔁 Retry after 3 seconds
+    setTimeout(loadAverage, 3000)
+  }
+}
+
+loadAverage()
+
 </script>
 </body>
 </html>
