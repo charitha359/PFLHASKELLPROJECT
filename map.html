@@ -78,7 +78,7 @@ const backend = "https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev"
 
 /* FETCH MAP DATA */
 
-fetch(backend + "/map-data")
+fetch("/data")
 
 .then(res => res.json())
 
@@ -88,7 +88,7 @@ document.getElementById("status").innerText = "";
 
 /* Load world map */
 
-const world = await fetch("https://unpkg.com/world-atlas@2/countries-110m.json")
+const world = await fetch("/data")
 .then(res => res.json())
 
 const countries = ChartGeo.topojson.feature(world, world.objects.countries).features
