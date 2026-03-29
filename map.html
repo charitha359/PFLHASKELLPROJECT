@@ -26,22 +26,14 @@ margin:25px;
 }
 
 .card{
-
 width:90%;
 max-width:1200px;
-
 margin:auto;
-
 background:white;
-
 padding:30px;
-
 border-radius:12px;
-
 box-shadow:0 4px 10px rgba(0,0,0,0.2);
-
 height:600px;
-
 }
 
 canvas{
@@ -73,8 +65,7 @@ color:#64748b;
 
 <script>
 
-/* FETCH BACKEND MAP DATA */
-
+/* FETCH DATA FROM BACKEND */
 fetch("https://pflhaskellproject-1.onrender.com/data")
 
 .then(res => res.json())
@@ -83,15 +74,13 @@ fetch("https://pflhaskellproject-1.onrender.com/data")
 
 document.getElementById("status").innerText = "";
 
-/* LOAD WORLD MAP (REAL FILE) */
-
+/* LOAD WORLD MAP */
 const world = await fetch("https://unpkg.com/world-atlas@2/countries-110m.json")
 .then(res => res.json())
 
 const countries = topojson.feature(world, world.objects.countries).features
 
 /* CREATE DATASET */
-
 const dataset = countries.map(d => {
 
 const matches = data.filter(x =>
@@ -103,7 +92,7 @@ const matches = data.filter(x =>
   )
 )
 
-/* TAKE LATEST YEAR VALUE */
+/* TAKE LATEST YEAR */
 const latest = matches.sort((a,b) => b.year - a.year)[0]
 
 return {
@@ -112,8 +101,8 @@ value: latest ? Number(latest.waste) : 0
 }
 
 })
-/* DRAW MAP */
 
+/* DRAW MAP */
 new Chart(document.getElementById("mapChart"),{
 
 type:"choropleth",
@@ -122,7 +111,17 @@ data:{
 labels:countries.map(d => d.properties.name),
 datasets:[{
 label:"Waste Generated",
-data:dataset
+data:dataset,
+
+/* COLOR SCALE */
+backgroundColor: (ctx) => {
+  const value = ctx.raw?.value || 0
+  return value > 10000 ? "#08306b" :
+         value > 5000  ? "#2171b5" :
+         value > 2000  ? "#6baed6" :
+         value > 1000  ? "#bdd7e7" :
+         "#eff3ff"
+}
 }]
 },
 
@@ -142,9 +141,7 @@ projection:"equalEarth"
 })
 
 .catch(() => {
-
-document.getElementById("status").innerText = "error loading with data"
-
+document.getElementById("status").innerText = "Error loading data"
 })
 
 </script>
