@@ -1,11 +1,13 @@
-FROM haskell:latest
+FROM haskell:9.2
 
 WORKDIR /app
 
 COPY . .
 
-RUN cabal update
+# 🚨 REMOVE STACK COMPLETELY
+RUN rm -rf /root/.stack
 
-EXPOSE 10000
+# 🚨 FORCE CABAL ONLY
+RUN cabal update && cabal build
 
-CMD ["sh", "-c", "stack exec PFLHASKELLPROJECT"]
+CMD ["cabal", "run", "PFLHASKELLPROJECT"]
