@@ -84,25 +84,19 @@ font-size:40px;
 </div>
 
 <script>
-
-/* FETCH AVERAGE DATA */
-
-fetch("/average")
-
+fetch("/data")
 .then(res => res.json())
-
 .then(data => {
 
-document.getElementById("avg").innerText = Number(data).toFixed(2);
+const total = data.reduce((sum, x) => sum + Number(x.waste), 0)
+const avg = total / data.length
+
+document.getElementById("avg").innerText = avg.toFixed(2)
 
 })
-
 .catch(() => {
-
-document.getElementById("avg").innerText = "Backend not running";
-
-});
-
+document.getElementById("avg").innerText = "Error loading data"
+})
 </script>
 </body>
 </html>

@@ -88,24 +88,30 @@ document.getElementById("status").innerText = "";
 const world = await fetch("https://unpkg.com/world-atlas@2/countries-110m.json")
 .then(res => res.json())
 
-const countries = ChartGeo.topojson.feature(world, world.objects.countries).features
+const countries = topojson.feature(world, world.objects.countries).features
 
 /* CREATE DATASET */
 
 const dataset = countries.map(d => {
 
-const match = data.find(x => 
-  x[0].toLowerCase().includes(d.properties.name.toLowerCase()) ||
-  d.properties.name.toLowerCase().includes(x[0].toLowerCase())
+const matches = data.filter(x =>
+  x.country && d.properties.name &&
+  (
+    x.country.toLowerCase() === d.properties.name.toLowerCase() ||
+    x.country.toLowerCase().includes(d.properties.name.toLowerCase()) ||
+    d.properties.name.toLowerCase().includes(x.country.toLowerCase())
+  )
 )
+
+/* TAKE LATEST YEAR VALUE */
+const latest = matches.sort((a,b) => b.year - a.year)[0]
 
 return {
 feature: d,
-value: match ? Number(match[1]) : 0
+value: latest ? Number(latest.waste) : 0
 }
 
 })
-
 /* DRAW MAP */
 
 new Chart(document.getElementById("mapChart"),{
@@ -137,7 +143,7 @@ projection:"equalEarth"
 
 .catch(() => {
 
-document.getElementById("status").innerText = "Backend not running"
+document.getElementById("status").innerText = "error loading with data"
 
 })
 
