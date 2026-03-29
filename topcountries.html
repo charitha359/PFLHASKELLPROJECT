@@ -71,19 +71,17 @@ color:#64748b;
 
 <script>
 
-/* BACKEND URL */
-
-const backend = "https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev";
-
 /* FETCH DATA */
 
-fetch("/data")
+fetch("/top-countries")
 
 .then(res => res.json())
 
 .then(data => {
 
 document.getElementById("status").innerText = "";
+
+/* data format: [ ["Country", totalWaste], ... ] */
 
 const countries = data.map(x => x[0])
 const waste = data.map(x => x[1])
@@ -95,7 +93,7 @@ type:"bar",
 data:{
 labels:countries,
 datasets:[{
-label:"Waste Generated",
+label:"Top Waste Producing Countries",
 data:waste,
 backgroundColor:"#ef4444"
 }]

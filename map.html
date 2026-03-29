@@ -72,13 +72,9 @@ color:#64748b;
 
 <script>
 
-/* BACKEND URL */
+/* FETCH BACKEND MAP DATA */
 
-const backend = "https://bug-free-carnival-pj4qp55w6x7fr6wx-3000.app.github.dev";
-
-/* FETCH MAP DATA */
-
-fetch("/data")
+fetch("/map-data")
 
 .then(res => res.json())
 
@@ -86,14 +82,14 @@ fetch("/data")
 
 document.getElementById("status").innerText = "";
 
-/* Load world map */
+/* LOAD WORLD MAP (REAL FILE) */
 
-const world = await fetch("/data")
+const world = await fetch("https://unpkg.com/world-atlas@2/countries-110m.json")
 .then(res => res.json())
 
 const countries = ChartGeo.topojson.feature(world, world.objects.countries).features
 
-/* Create map data */
+/* CREATE DATASET */
 
 const dataset = countries.map(d => {
 
@@ -106,7 +102,7 @@ value: match ? match[1] : 0
 
 })
 
-/* Draw map */
+/* DRAW MAP */
 
 new Chart(document.getElementById("mapChart"),{
 
