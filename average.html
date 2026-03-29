@@ -88,15 +88,13 @@ fetch("https://pflhaskellproject-1.onrender.com/average")
 .then(res => res.json())
 .then(data => {
 
-const total = data.reduce((sum, x) => sum + Number(x.waste), 0)
-const avg = total / data.length
-
-document.getElementById("avg").innerText = avg.toFixed(2)
+document.getElementById("avg").innerText = Number(data).toFixed(2)
 
 })
 .catch(() => {
 document.getElementById("avg").innerText = "Error loading data"
 })
 </script>
+
 </body>
 </html>
