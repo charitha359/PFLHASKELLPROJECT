@@ -2,10 +2,11 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-import Control.Exception (catch, IOException)
+import Control.Exception (IOException, catch)
+import qualified Web.Scotty as S
 import System.Environment (lookupEnv)
 
-import Web.Scotty
+import Web.Scotty hiding (catch)
 import qualified Data.ByteString.Lazy as BL
 import Data.Csv
 import qualified Data.Vector as V
@@ -65,7 +66,7 @@ main = do
 
   putStrLn ("Starting server on port " ++ show port)
 
-  scotty port $ do
+  S.scotty port $ do
 
 -------------------------------------------------
 -- STATIC FILE SERVER
